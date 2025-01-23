@@ -1,0 +1,15 @@
+{
+    "-Dlucee-extensions":"FAD1E8CB-4F45-4184-86359145767C29DE;version=3.5.5.89",
+    "app":{
+        "cfengine":"lucee@5.4"
+    },
+    "env":{
+        "LUCEE_EXTENSIONS":"D062D72F-F8A2-46F0-8CBC91325B2F067B;version=6.5.2"
+    },
+    "name":"to-do",
+    "web":{
+        "rewrites":{
+            "enable":"true"
+        }
+    }
+}
