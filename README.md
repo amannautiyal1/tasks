@@ -109,14 +109,7 @@ git clone https://github.com/amannautiyal1/tasks.git
 
 Before running the application, you'll need to set up your database:
 
-1. **Import the Database Schema**  
-   Import the database schema (e.g., `tasks.sql`) into your MySQL database. This schema file should define the structure of the `tasks` table and any other necessary tables for the application.
-
-   You can import the schema into MySQL using a tool like **phpMyAdmin**, **MySQL Workbench**, or via command line:
-
-   ```bash
-   mysql -u your_username -p your_database_name < tasks.sql
-	```
+follow this doc - https://docs.google.com/document/d/13azVuClkkPJe-lnF6RG2k2iGERjQ5JVW-tRAIUL9k4o
 
 
 ### 9. **Running the Application**
@@ -138,5 +131,6 @@ Once you have set up the database and configured your environment, you can run t
 - **Install MySQL** and **Install ColdBox Using CommandBox** sections.
 - **Set up ColdBox Application** and **Install CBORM**.
 - **Clone the Repository**, **Database Setup**, and **Running the Application** sections
+- **refer this doc for more info** - https://docs.google.com/document/d/13azVuClkkPJe-lnF6RG2k2iGERjQ5JVW-tRAIUL9k4o/edit?tab=t.0
 
 
