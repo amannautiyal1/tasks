@@ -6,8 +6,8 @@ component  table="tasks" persistent="true"{
 	// Properties
 	property name="id" fieldtype="id" column="id" generator="native" setter="false";
 	property name="task_name" ormtype="string";
-    property name="is_completed" ormtype="boolean" default="false";
 	property name="created_at" ormtype="timestamp";
+    property name="is_completed" type="boolean" default="false";
 
 	// Validation Constraints
 	this.constraints = {
@@ -44,10 +44,10 @@ component  table="tasks" persistent="true"{
 	/**
 	 * Constructor
 	 */
-	Tasks function init(){
-		// super.init( useQueryCaching="false" );
-		return this;
-	}
+	private function init() {
+        super.init(useQueryCaching=false);
+        return this;
+    }
 
 	/**
 	 * Verify if the model has been loaded from the database

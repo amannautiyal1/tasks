@@ -43,23 +43,26 @@ component singleton {
 		return "Entity Deleted!";
 	}
 
-	any function markCompletedById(required numeric taskId){
-		try{
-			var task = taskService.getOrFail(taskId);
+	function markCompletedById(required numeric taskId) {
+		try {
+			var task = entityLoadByPK("Tasks", taskId);
+			
+			if (isNull(task)) {
+				throw(type="TaskNotFound", message="Task #taskId# not found");
+			}
+			task.setIs_completed(true);
 
-			// Directly assign the value to is_completed property
-			task.is_completed = true;
-	
-			// Save the updated task entity
-			// entitySave(task);
-	
-			// Return the updated task object
+			taskService.save(task);
+
 			return task;
-		} catch( any e ){
-			return "Error marking completing entity: #e.message# #e.detail#";
+		} catch (TaskNotFound e) {
+			throw(e);
+		} catch (any e) {
+			throw(
+				type="TaskCompletionError", 
+				message=e.message
+			);
 		}
-	
-		return "Entity Marked!";
 	}
 
 }

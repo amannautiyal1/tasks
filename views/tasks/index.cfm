@@ -143,7 +143,7 @@
                 if (response.status === 'success') {
                     $('#task-row-' + taskToMarkCompleted).find('td:nth-child(3)').text('Completed');
                     $('#task-row-' + taskToMarkCompleted).find('.btn-success').hide();
-                    $('#confirmationModal').modal('hide');
+                    $('#complete-confirmationModal').modal('hide');
                 } else {
                     alert('Error marking task as completed.');
                 }

@@ -44,11 +44,10 @@ any function markCompleted( event, rc, prc ) {
 	var taskId = rc.taskId;
 	
 	if ( isNumeric( taskId ) ) {
-		var ans = taskService.markCompletedById( taskId );
+		 taskService.markCompletedById( taskId );
 		return {
 			"status" : "success",
-			"message" : "Task marked completed successfully",
-			"ans": ans
+			"message" : "Task marked completed successfully"
 		}
 	} else {
 		return {
