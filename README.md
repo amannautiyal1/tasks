@@ -138,5 +138,6 @@ Once you have set up the database and configured your environment, you can run t
 - **Install MySQL** and **Install ColdBox Using CommandBox** sections.
 - **Set up ColdBox Application** and **Install CBORM**.
 - **Clone the Repository**, **Database Setup**, and **Running the Application** sections
+- **refer this doc for more info** - https://docs.google.com/document/d/13azVuClkkPJe-lnF6RG2k2iGERjQ5JVW-tRAIUL9k4o/edit?tab=t.0
 
 
