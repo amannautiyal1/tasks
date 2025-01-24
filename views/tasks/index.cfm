@@ -1,44 +1,45 @@
 <cfoutput>
     <h1>My Tasks</h1>
     <cfset tasks = prc.tasks>
+    <cfset customId = 0>
  
     <!-- Display tasks in a table format -->
-    <table>
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Task ID</th>
-                <th>Task Name</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th class="p-2">Task ID</th>
+                <th class="p-2">Task Name</th>
+                <th class="p-2">Status</th>
+                <th class="p-2">Actions</th>
             </tr>
         </thead>
         <tbody>
             <cfscript>
-                for (task in tasks) {
-                    writeOutput("<tr id='task-row-" & task.id & "'>");
-                    writeOutput("<td>" & task.id & "</td>");
-                    writeOutput("<td>" & task.task_name & "</td>");
-                    // Check if the task is completed
-                    // writeOutput("<h1>" & (task.is_completed) & "</h1>");
-                    if (!task.is_completed) {
-                        writeOutput("<td>Incomplete </td>");
-                    } else {
-                        writeOutput("<td>Completed</td>");
-                    }
-                    
-                    // Action links
-                    writeOutput("<td>");
-                    writeOutput('<button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete(' & task.id & ')">Delete</button>');
-
-                    // Mark as Completed button
-                    if (!task.is_completed) {
-                        writeOutput('<button type="button" class="btn btn-sm btn-success" onclick="confirmMarkCompleted(' & task.id & ')">Mark as Completed</button>');
-                    }
-                    writeOutput("</td>");
-                    
-                    writeOutput("</tr>");
+            for (task in tasks) {
+                customId++;
+                writeOutput("<tr id='task-row-" & task.id & "'>");
+                writeOutput("<td>" & customId & "</td>");
+                writeOutput("<td>" & task.task_name & "</td>");
+                
+                if (!task.is_completed) {
+                    writeOutput("<td>Incomplete </td>");
+                } else {
+                    writeOutput("<td>Completed</td>");
                 }
-            </cfscript>
+                
+                // Action links
+                writeOutput("<td>");
+                writeOutput('<button type="button" class="btn btn-sm btn-danger m-2" onclick="confirmDelete(' & task.id & ')">Delete</button>');
+        
+                // Mark as Completed button
+                if (!task.is_completed) {
+                    writeOutput('<button type="button" class="btn btn-sm btn-success m-2" onclick="confirmMarkCompleted(' & task.id & ')">Mark as Completed</button>');
+                }
+                writeOutput("</td>");
+                
+                writeOutput("</tr>");
+            }
+        </cfscript>
         </tbody>
     </table>
 
