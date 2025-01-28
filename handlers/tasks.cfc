@@ -58,6 +58,24 @@ any function markCompleted( event, rc, prc ) {
 }
 
 
+any function addTask( event, rc, prc ) {
+	var taskName = rc.task_name;
+	
+		 var task = taskService.addTask( taskName );
+		 event.renderData( 
+            data = {
+                "status" : "success",
+                "task" : {
+                    "id" : task.getId(),
+                    "task_name" : task.getTask_name(),
+                    "is_completed" : task.getIs_completed() ?: false
+                }
+            },
+            type = "json",
+            statusCode = 200
+        );
+}
+
 
 }
 

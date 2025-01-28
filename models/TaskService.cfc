@@ -65,4 +65,27 @@ component singleton {
 		}
 	}
 
+	function addTask(required taskName) {
+		try {
+			var task = taskService.new();
+        
+			// Populate the properties
+			task.setTask_name(taskName);
+			
+			task.setCreated_at(now());
+			
+			// Save using the entityService
+			taskService.save(task);
+			
+			return task;
+		} catch (TaskNotFound e) {
+			throw(e);
+		} catch (any e) {
+			throw(
+				type="TaskCompletionError", 
+				message=e.message
+			);
+		}
+	}
+
 }

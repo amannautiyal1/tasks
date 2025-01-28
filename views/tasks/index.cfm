@@ -3,6 +3,15 @@
     <cfset tasks = prc.tasks>
     <cfset customId = 0>
  
+    <div class="row mb-4">
+        <div class="col">
+            <div class="d-flex">
+                <input type="text" id="newTaskName" class="form-control mr-2" placeholder="Enter new task name" required>
+                <button type="button" id="addTaskBtn" class="btn btn-primary">Add Task</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Display tasks in a table format -->
     <table class="table table-bordered table-striped">
         <thead>
@@ -155,6 +164,53 @@
                 taskToMarkCompleted = null;
             }
         });
+    }
+});
+
+$('#addTaskBtn').click(function() {
+    const taskName = $('#newTaskName').val().trim();
+    
+    if (taskName) {
+        $.ajax({
+            url: '/tasks/addTask', // Your ColdFusion add task handler URL
+            type: 'POST',
+            data: { task_name: taskName },
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Create new row with the returned task data
+                    const newRow = `
+                        <tr id="task-row-${response.task.id}">
+                            <td>${response.task.id}</td>
+                            <td>${response.task.task_name}</td>
+                            <td>Incomplete</td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-danger m-2" onclick="confirmDelete(${response.task.id})">Delete</button>
+                                <button type="button" class="btn btn-sm btn-success m-2" onclick="confirmMarkCompleted(${response.task.id})">Mark as Completed</button>
+                            </td>
+                        </tr>
+                    `;
+                    
+                    // Add the new row to the table
+                    $('table tbody').append(newRow);
+                    
+                    // Clear the input field
+                    $('#newTaskName').val('');
+                } else {
+                    alert('Error adding task.');
+                }
+            },
+            error: function() {
+                alert('Error adding task.');
+            }
+        });
+    }
+});
+
+// Also handle Enter key press in the input field
+$('#newTaskName').keypress(function(e) {
+    if (e.which === 13) { // Enter key
+        e.preventDefault();
+        $('#addTaskBtn').click();
     }
 });
 </script>

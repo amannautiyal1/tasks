@@ -54,6 +54,10 @@ component {
 		.rc( "format", "json" )
 		.to( "tasks.markCompleted" );
 
+		route( "/tasks/addTask")
+		.rc( "format", "json" )
+		.to( "tasks.addTask" );
+
 		// Default Route
 		route( ":handler/:action?" ).end();
 	}
