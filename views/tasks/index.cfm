@@ -1,13 +1,19 @@
 <cfoutput>
-    <h1>My Tasks</h1>
     <cfset tasks = prc.tasks>
     <cfset customId = 0>
- 
-    <div class="row mb-4">
-        <div class="col">
-            <div class="d-flex">
-                <input type="text" id="newTaskName" class="form-control mr-2" placeholder="Enter new task name" required>
-                <button type="button" id="addTaskBtn" class="btn btn-primary">Add Task</button>
+    <div class="container-fluid">
+    <div class="row align-items-center mb-4">
+        <div class="col-12 col-md-6">
+            <h1 class="h3 mb-3 mb-md-0">My Tasks</h1>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="d-flex justify-content-md-end">
+                <div class="input-group" style="max-width: 400px;">
+                    <input type="text" id="newTaskName" class="form-control m-2 mt-0" placeholder="Enter new task name" required>
+                    <div class="input-group-append m-2 mt-0">
+                        <button type="button" id="addTaskBtn" class="btn btn-primary">Add Task</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -92,6 +98,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 </cfoutput>
 
