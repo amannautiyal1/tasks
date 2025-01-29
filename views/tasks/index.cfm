@@ -116,6 +116,15 @@
         $('#confirmationModal').modal('show');
     }
 
+    // Function to handle row renumbering
+    function renumberRows() {
+        let rowId = 1; // Start from 1 for the first row
+        $('table tbody tr').each(function() {
+            $(this).find('td:first').text(rowId); // Update the first column with sequential numbers
+            rowId++; // Increment for the next row
+        });
+    }
+
     // Handle the delete button click inside the modal
     $('#confirmDeleteBtn').click(function() {
         if (taskToDelete) {
@@ -129,6 +138,7 @@
                     if (response.status==='success') {
                         $('#task-row-' + taskToDelete).remove();
                         $('#confirmationModal').modal('hide');
+                        renumberRows();
                     } else {
                         alert('Error deleting task.');
                     }
@@ -184,10 +194,13 @@ $('#addTaskBtn').click(function() {
             data: { task_name: taskName },
             success: function(response) {
                 if (response.status === 'success') {
+
+                    const rowCount = $('table tbody tr').length + 1;
+
                     // Create new row with the returned task data
                     const newRow = `
                         <tr id="task-row-${response.task.id}">
-                            <td>${response.task.id}</td>
+                            <td>${rowCount}</td>
                             <td>${response.task.task_name}</td>
                             <td>Incomplete</td>
                             <td>
