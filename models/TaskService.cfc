@@ -88,4 +88,26 @@ component singleton {
 		}
 	}
 
+	
+	function updateTask(required numeric taskId, required updatedTaskName) {
+		try {
+			var task = entityLoadByPK("Tasks", taskId);
+			
+			if (isNull(task)) {
+				throw(type="TaskNotFound", message="Task #taskId# not found");
+			}
+			task.setTask_name(updatedTaskName);
+
+			taskService.save(task);
+
+			return task;
+		} catch (TaskNotFound e) {
+			throw(e);
+		} catch (any e) {
+			throw(
+				type="TaskCompletionError", 
+				message=e.message
+			);
+		}
+	}
 }

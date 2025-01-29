@@ -58,6 +58,11 @@ component {
 		.rc( "format", "json" )
 		.to( "tasks.addTask" );
 
+		
+		route( "/tasks/editTask")
+		.rc( "format", "json" )
+		.to( "tasks.editTask" );
+
 		// Default Route
 		route( ":handler/:action?" ).end();
 	}

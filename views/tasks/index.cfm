@@ -34,7 +34,7 @@
                 customId++;
                 writeOutput("<tr id='task-row-" & task.id & "'>");
                 writeOutput("<td>" & customId & "</td>");
-                writeOutput("<td>" & task.task_name & "</td>");
+                writeOutput("<td id='task-name-" & task.id & "'>" & task.task_name & "</td>");
                 
                 if (!task.is_completed) {
                     writeOutput("<td>Incomplete </td>");
@@ -45,7 +45,8 @@
                 // Action links
                 writeOutput("<td>");
                 writeOutput('<button type="button" class="btn btn-sm btn-danger m-2" onclick="confirmDelete(' & task.id & ')">Delete</button>');
-        
+                writeOutput('<button type="button" class="btn btn-sm btn-secondary m-2" onclick="editTask(' & task.id & ')">Edit</button>');
+
                 // Mark as Completed button
                 if (!task.is_completed) {
                     writeOutput('<button type="button" class="btn btn-sm btn-success m-2" onclick="confirmMarkCompleted(' & task.id & ')">Mark as Completed</button>');
@@ -131,7 +132,7 @@
             // Send the task deletion request via AJAX (avoid re-querying the database)
             $.ajax({
                 url: '/tasks/deleteTask', // Your ColdFusion delete handler URL
-                type: 'POST',
+                type: 'DELETE',
                 data: {taskId: taskToDelete},
                 success: function(response) {
                     // If the deletion was successful, remove the task row from the table
@@ -160,29 +161,64 @@
 
     $('#confirmActionBtn').click(function() {
 
-    if (taskToMarkCompleted) {
-        // Mark the task as completed
-        $.ajax({
-            url: '/tasks/markCompleted', // Your ColdFusion markCompleted handler URL
-            type: 'PUT',
-            data: { taskId: taskToMarkCompleted },
-            success: function(response) {
-                if (response.status === 'success') {
-                    $('#task-row-' + taskToMarkCompleted).find('td:nth-child(3)').text('Completed');
-                    $('#task-row-' + taskToMarkCompleted).find('.btn-success').hide();
-                    $('#complete-confirmationModal').modal('hide');
-                } else {
+        if (taskToMarkCompleted) {
+            // Mark the task as completed
+            $.ajax({
+                url: '/tasks/markCompleted', // Your ColdFusion markCompleted handler URL
+                type: 'PUT',
+                data: { taskId: taskToMarkCompleted },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $('#task-row-' + taskToMarkCompleted).find('td:nth-child(3)').text('Completed');
+                        $('#task-row-' + taskToMarkCompleted).find('.btn-success').hide();
+                        $('#complete-confirmationModal').modal('hide');
+                    } else {
+                        alert('Error marking task as completed.');
+                    }
+                    taskToMarkCompleted = null;
+                },
+                error: function() {
                     alert('Error marking task as completed.');
+                    taskToMarkCompleted = null;
                 }
-                taskToMarkCompleted = null;
-            },
-            error: function() {
-                alert('Error marking task as completed.');
-                taskToMarkCompleted = null;
-            }
-        });
+            });
+        }
+    });
+
+    function editTask(taskId) {
+        // Get the current task name
+        const currentTaskName = $('#task-name-' + taskId).text();
+        
+        // Show the task name in an input field
+        const editInput = `<input type="text" id="edit-task-name" value="${currentTaskName}" class="form-control m-2">`;
+        const saveButton = `<button type="button" class="btn btn-sm btn-primary m-2" onclick="saveTask(${taskId})">Save</button>`;
+        
+        // Replace the task name cell with the input field
+        $('#task-name-' + taskId).html(editInput + saveButton);
     }
-});
+
+    function saveTask(taskId) {
+        const updatedTaskName = $('#edit-task-name').val().trim();
+        
+        if (updatedTaskName) {
+            $.ajax({
+                url: '/tasks/editTask', // Your ColdFusion edit task handler URL
+                type: 'PUT',
+                data: { taskId: taskId, task_name: updatedTaskName },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        // Update the task name in the table
+                        $('#task-name-' + taskId).text(updatedTaskName);
+                    } else {
+                        alert('Error updating task.');
+                    }
+                },
+                error: function() {
+                    alert('Error updating task.');
+                }
+            });
+        }
+    }
 
 $('#addTaskBtn').click(function() {
     const taskName = $('#newTaskName').val().trim();

@@ -76,6 +76,23 @@ any function addTask( event, rc, prc ) {
         );
 }
 
+any function editTask( event, rc, prc ) {
+	var taskId = rc.taskId;
+	var taskName = rc.task_name;
+	
+	if ( isNumeric( taskId ) ) {
+		 taskService.updateTask( taskId, taskName );
+		return {
+			"status" : "success",
+			"message" : "Task Name updated successfully"
+		}
+	} else {
+		return {
+			"status" : "error",
+			"message" : "Invalid task ID"
+		};
+	}
+}
 
 }
 
